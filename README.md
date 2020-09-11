@@ -4,7 +4,23 @@ This page tries to explain the coding guidelines we follow not only in terms of 
 
 ## Table of Contents
 
-TBD
+- [1. Base Coding style](#1-base-coding-style)  
+    * [1.1 Swift API Design Guidelines](#11-swift-api-design-guidelines) 
+    * [1.2 SwiftLint](#12-swiftlint) 
+- [2. DO. NOT. HARDCODE](#2-do-not-hardcode)  
+- [3. Naming Conventions](#3-naming-conventions)  
+    * [3.1 Property names with ambiguous type information](#31-property-names-with-ambiguous-type-information) 
+- [4. \[Alt\]SwiftUI](#4-altswiftui) 
+    * [4.1 Views](#41-views)
+    * [4.2 Button](#42-button)
+    * [4.3 ForEach](#43-foreach)
+- [5. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+- [6. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+- [7. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+- [8. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+- [9. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+- [10. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+
 
 ## 1. Base coding style
 
@@ -50,26 +66,23 @@ For the case above, the better name would be \`**providerImageURLString**\`
 
 ### 4.1 Views
 
-#### 4.1.1 Maximum Nesting Levels
-
+<details>
+  <summary>Maximum Nesting Levels</summary>
+  
 Maximum **3 levels** of nesting, without counting **Stacks** (VStack, HStack, ZStack), **Lists** (List, ForEach) or **ScrollViews**.
 
-<details>
-  <summary>Example</summary>
-  
-  ```swift
-  VStack {
-      Text("Title") // 1st level
-      HStack {
-          Text("Subtitle") // 2nd level
-          VStack {
-              Text("Price") // 3rd level
-              Text("USD 10.00")
-          }
+```swift
+VStack {
+  Text("Title") // 1st level
+  HStack {
+      Text("Subtitle") // 2nd level
+      VStack {
+          Text("Price") // 3rd level
+          Text("USD 10.00")
       }
   }
-  ``` 
-</details>
+}
+``` 
 
 We also strongly suggest refactoring the following components into separate computed properties/functions/files:
 
@@ -77,53 +90,63 @@ We also strongly suggest refactoring the following components into separate comp
 *   Headers
 *   Footers
 *   Any other view that requires a closure to define its own subcomponents (e.g. PageViewController)
+</details>
 
-### 4.1.2 Button
-
+<details>
+  <summary>Button</summary>
+    
 If you want to add custom views to a button, remember to put **everything** inside, so that all the content is clickable.
 
 _e.g. of wrong setup_: `Button(){}.padding().cornerRadius()` -> Will create un-clickable content.
 
-#### 4.1.2.1 accent
+- accent
+    * If you want to change the accent of a button, always apply the accent in the button itself, instead of inside its content.
 
-If you want to change the accent of a button, always apply the accent in the button itself, instead of inside its content.
+- foregroundColor
+    * You can specify foreground color either at Button level or content level, depending if you want to target specific content only.
+</details>
 
-#### 4.1.2.2 foregroundColor
-
-You can specify foreground color either at Button level or content level, depending if you want to target specific content only.
-
-### 4.1.3 ForEach
-
-ForEach represents a loop. Don't add dimension properties like frame and padding to this view!
+<details>
+  <summary>ForEach</summary>
+    `ForEach` represents a loop. Don't add dimension properties like frame and padding to this view!
+</details>
 
 ## 4.2 Modifiers
 
-### 4.2.1 .animation()
-
+<details>
+  <summary>.animation()</summary>
+    
 *   (RakuSwiftUI limitation) Make sure any properties you wish to animate are set **after** any padding() setting.
 *   Use .animation() selectively as it affects everything that's defined before it. For transitions, apply the animation directly to the transition, or in general, use withAnimation()
+</details>
 
-#### 4.2.2 .environmentObject()
-
+<details>
+  <summary>.environmentObject()</summary>
+    
 Don't set the same environment object type twice. Make sure that only one environment object of the same type is needed at a time. Redeclaring environment objects in sub-flows can make the data flow confusing and prone to errors.
 
 Better solution: Use _Binding_ or _ObservedObject_.
+</details>
 
-#### 4.2.3 .frame() and .padding()
+<details>
+  <summary>.frame() and .padding()</summary>
 
 These functions create **new views.** Any modifiers applied after this are applied to the new view, and not the original one.  
 
 e.g. Image().frame().scaledToFill() -> This will not scale to fill the image, but the frame, causing undesired results!  
-    
-#### 4.2.4 .onAppear()
+</details>
+
+<details>
+  <summary>.onAppear()</summary>
 
 Only use onAppear on the top-most view of a body or cell, or on the top-most view after an _if_ / _if-else_ / _ForEach_ statement.
+</details>
 
-#### 4.2.5 .padding()
+<details>
+  <summary>.padding()</summary>
 
-If you want to add 2 types of padding:
-
-\- Use .padding(EdgeInsets) **instead** of using 2 or more .padding() functions
+If you want to add 2 types of padding, use .padding(EdgeInsets) **instead** of using 2 or more .padding() functions
+</details>
 
 ### 4.3 Opaque Types
 
