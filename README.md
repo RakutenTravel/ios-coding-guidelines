@@ -24,18 +24,6 @@ Just don't. :neutral_face: Please. :relieved:
 
 ## 3. Naming Conventions
 
-### 3.1 Components and Type naming
-
-| Component/File  | Suffix  | Format  | Example  | Description  |
-|---|---|---|---|---|
-| **View**  | View  | PascalCase  | SearchView  | An \[Alt\]SwiftUI view |
-| **Model**  | Model  | PascalCase  | SearchModel  | Models contain behavior and properties that allow us to interact with a particular domain  |
-| **Service**  | Service  | PascalCase  | SearchService  | Services allow us to interact with a particular external system  |
-| **Request**  | Request  | PascalCase  | SearchRequest  | A class that encapsulates a connection to an API endpoint  |
-| **Data Structure**  | \-  | PascalCase  | SearchList  | Plain data structures (DTO) that are meant to carry values only  |
-| **Color Assets (.xcassets)**  | \-  | camelCase  | primaryBackground  | Color assets  |
-| **Image Assets (.xcassets)**  | \-  | namespace(camelCase)\_name(camelCase)  | icon\_outline  | Image assets  |  
-
 ### 3.1 Property names with ambiguous type information
 
 Some property names might be misleading. Especially if you can't rely on the IDE at the moment (e.g: While reviewing a PR, or when XCode's indexing fails)
@@ -58,7 +46,7 @@ In cases like this, try compensating for the weak type information on your prope
 
 For the case above, the better name would be \`**providerImageURLString**\`
 
-## 4. SwiftUI
+## 4. [\[Alt\]](https://github.com/rakutentech/AltSwiftUI)SwiftUI
 
 ### 4.1 Views
 
@@ -762,14 +750,3 @@ In regards to \`**feature\`** and **\`bugfix\`** branches, we follow the followi
 
 *   If you receive comments, wait until all people that marked the PR as **Needs work** approve it again before merging
 *   If you negotiate to fix some of the comments later, create a jira ticket before merging
-
-### 10.3 Update the mock server configuration of Mockoon
-
-In order to develop in the mock environment, we use Mockoon to be a mock server. The tutorial of how to use Mockoon is in [{info} Mock Server Usage](https://confluence.rakuten-it.com/confluence/display/trvpdsmart/%7Binfo%7D+Mock+Server+Usage). The configuration is in **{project\_root\_folder}/configuration/mockoon/mockoon.json**, and you can use this configuration to set up a Mockoon server in your local machine.
-
-If your implementation will also need to update the configuration of Mockoon (for the specified APIs), please also remember to update the configuration in your pull request.
-
-1.  Export the environment of Mockoon from your local Mockoon server
-2.  Update **mockoon.json** with the latest configuration
-3.  Commit the updated mockoon.json into your feature branch
-4.  After your pull request is merged, please also update the configuration of Mockoon in our CI server
