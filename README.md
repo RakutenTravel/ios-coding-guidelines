@@ -4,7 +4,7 @@ This page tries to explain the coding guidelines we follow not only in terms of 
 
 ## Table of Contents
 
-- [1. Base Coding style](#1-base-coding-style)  
+- [1. Base Coding Style](#1-base-coding-style)  
     * [1.1 Swift API Design Guidelines](#11-swift-api-design-guidelines) 
     * [1.2 SwiftLint](#12-swiftlint) 
 - [2. DO. NOT. HARDCODE](#2-do-not-hardcode)  
@@ -12,17 +12,32 @@ This page tries to explain the coding guidelines we follow not only in terms of 
     * [3.1 Property names with ambiguous type information](#31-property-names-with-ambiguous-type-information) 
 - [4. \[Alt\]SwiftUI](#4-altswiftui) 
     * [4.1 Views](#41-views)
-    * [4.2 Button](#42-button)
-    * [4.3 ForEach](#43-foreach)
-- [5. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
-- [6. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
-- [7. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
-- [8. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
-- [9. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
-- [10. \[Alt\](https://github.com/rakutentech/AltSwiftUI)SwiftUI](#4-altswiftui) 
+    * [4.2 Modifiers](#42-modifiers)
+    * [4.3 Opaque Types](#43-opaque-types)
+- [5. Code Structure](#5-code-structure) 
+    * [5.1 File Type Structures](#51-file-types-structure)
+    * [5.2 Main Type Structures](#52-main-type-structure)
+    * [5.3 View's Wrapped Properties Structure](#53-views-wrapped-properties-structure)
+    * [5.4 Mutability and Accessibility-wise](#54-mutability-and-accessibility-wise)
+    * [5.5 Overall Example](#55-overall-example)
+- [6. Line Wrapping](#6-line-wrapping)
+    * [6.1 Line Width](#61-line-width)
+    * [6.2 Where To Break Lines](#62-where-to-break-lines)
+    * [6.3 Multiple Parameters & Trailing Closures](#63-multiple-parameters--trailing-closures)
+    * [6.4 Chained Function Calls](#64-chained-function-calls)
+- [7. About MARKs](#7-about-marks) 
+- [8. Extensions Usage](#8-extensions-usage) 
+    * [8.1 Implementation of a Protocol](#81-implementation-of-a-protocol) 
+    * [8.2 Declaration of Related Fileprivate Properties from Other Types](#82-declaration-of-related-fileprivate-properties-from-other-types) 
+    * [8.3 Structs' Custom Inits](#83-structs-custom-inits) 
+- [9. Control Transfer Statements](#9-control-transfer-statements) 
+    * [9.1 `Guard` vs `If`](#91-guard-vs-if) 
+- [10. Others](#10-others) 
+    * [10.1 Branching Strategy](#101-branching-strategy) 
+    * [10.2 Branch Merging](#102-branch-merging) 
 
 
-## 1. Base coding style
+## 1. Base Coding Style
 
 ### 1.1 Swift API Design Guidelines
 
@@ -190,7 +205,7 @@ Hence, whenever we use a getter that has an opaque type as its specified return 
 
 Our files code is going to be grouped and ordered, using the following prioritization.
 
-### 5.1 File Types structure
+### 5.1 File Types Structure
 
 The 1st priority states the following grouping and order.
 
@@ -200,7 +215,7 @@ The 1st priority states the following grouping and order.
 4.  Extensions
 5.  Preview Provider (not used now)
 
-### 5.2 Main Type structure
+### 5.2 Main Type Structure
 
 The 2nd priority states the overall structure of the main type's contents (i.e. your View, Model, etc). This should be separated by `MARK`s (without horizontal rule)
 
@@ -213,7 +228,7 @@ The 2nd priority states the overall structure of the main type's contents (i.e. 
 7.  Subviews logic (private functions and/or computed properties used to compute subviews internal information like texts or even entire views)
 8.  Other functions
 
-### 5.3 View's wrapped properties structure
+### 5.3 View's Wrapped Properties Structure
 
 The 3rd priority is related to Views specifically and it states the structure of properties that make use of property wrappers.
 
@@ -235,7 +250,7 @@ The 4th priority states the structure in terms of just the mutability and access
 6.  computed properties
 7.  functions
     
-### 5.5 Overall example
+### 5.5 Overall Example
 
 <details>
   <summary>Example</summary>
@@ -308,7 +323,7 @@ The 4th priority states the structure in terms of just the mutability and access
 
 For a quick criteria, try wrapping whenever you surpass **column 130** on your line.
 
-### 6.2 Where to break lines
+### 6.2 Where To Break Lines
 
 For more details on **where** in your line you should break it, please follow [Google's Swift Style Guide](https://google.github.io/swift/#line-wrapping).
 
@@ -352,11 +367,11 @@ Especially, try wrapping when you have initializers or functions with a big amou
   ```
 </details>
 
-### 6.3 Multiple parameters & trailing closures
+### 6.3 Multiple Parameters & Trailing Closures
 
 As inits and functions cannot only be line-wrapped throughout multiple lines, but also have trailing closures, we are defining the following 3 patterns:
 
-#### 6.3.1 Single-line pattern
+#### 6.3.1 Single-line Pattern
 
 The simplest pattern. No need to break lines if everything fits into one single line.
 
@@ -376,7 +391,7 @@ The simplest pattern. No need to break lines if everything fits into one single 
 </details>
 
 
-#### 6.3.2 Multiline parameters without trailing closure
+#### 6.3.2 Multiline Parameters Without Trailing Closure
 
 Whenever you are breaking your parameters into different lines **and no trailing closure is declared**, the closing parentheses MUST be in the same line as the end of the last parameter.
 
@@ -413,7 +428,7 @@ Whenever you are breaking your parameters into different lines **and no trailing
   ```
 </details>
 
-#### 6.3.2 Multiline parameters with trailing closure
+#### 6.3.2 Multiline Parameters With Trailing Closure
 
 Whenever you are breaking your parameters into different lines **and a trailing closure is declared**, the init's closing parentheses and the trailing closure's opening bracket should be on a new line.
 
@@ -431,11 +446,11 @@ Whenever you are breaking your parameters into different lines **and a trailing 
   ```
 </details>
 
-### **6.4 Chained function calls**
+### **6.4 Chained Function Calls**
 
 When breaking lines while using functions calls that could be chained (i.e builder functions, modifiers, high-order functions), the indentation of each call will depend on the first instruction of the chain, based on the following patterns.
 
-#### 6.4.1 Single-lined first instruction
+#### 6.4.1 Single-lined First Instruction
 
 If the first line of the chain fits in only one line, the following function calls will all have only **one more level** of indentation than the first line.
 
@@ -465,7 +480,7 @@ If the first line of the chain fits in only one line, the following function cal
   ```
 </details>
 
-#### 6.4.2 Multi-lined first instruction
+#### 6.4.2 Multi-lined First Instruction
 
 If the first instruction of the chain goes across multiple lines, the following function calls will all have **the same level** of indentation as the line including the closing element (either parentheses **\`)\`** or curly brace **\`}\`**).
 
@@ -558,7 +573,7 @@ If the first instruction of the chain goes across multiple lines, the following 
 
 Use extensions for the following cases.
 
-### 8.1 Implementation of a protocol
+### 8.1 Implementation of a Protocol
 
 Use extensions to separate the declaration of a Type from the implementation of a protocol by that same Type.
 
@@ -572,7 +587,7 @@ extension CustomView: UICollectionViewDelegate { ... }
 ```
 </details>
 
-### 8.2 Declaration of related fileprivate properties from other types
+### 8.2 Declaration of Related Fileprivate Properties from Other Types
 
 Use **fileprivate** extensions whenever you need to extend other Types functionality, in order to support your the Type declared in your file. Prioritize using **computed properties** over creating \`**getter**\` methods like **\`getTitle(from: otherObject)\`**, **\`calculate(from: array)\`.**
 
@@ -606,7 +621,7 @@ Use **fileprivate** extensions whenever you need to extend other Types functiona
   ```
 </details>
 
-### 8.3 Structs' custom inits
+### 8.3 Structs' Custom Inits
 
 In the case of **structs**, in order to avoid deleting the default **member-wise initializer** that is provided by default, make use of extensions to define your custom inits.
 
