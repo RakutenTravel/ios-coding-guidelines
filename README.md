@@ -161,7 +161,7 @@ If you want to add 2 types of padding, use .padding(EdgeInsets) **instead** of u
 
 ### 4.3 Opaque Types
 
-In contrast to the actual SwiftUI, AltSwiftUI does not support [opaque types](https://docs.swift.org/swift-book/LanguageGuide/OpaqueTypes.html). However, because we are planning to eventually migrate the code to SwiftUI, we would like to keep code as similar as possible to avoid compiling errors in the future.
+In contrast to the actual SwiftUI, AltSwiftUI does not support [opaque types](https://docs.swift.org/swift-book/LanguageGuide/OpaqueTypes.html). However, the way views are updated is similar, so returning the same concrete view type in functions is necessary to keep consistency even though there is no compiler constraint.
 
 Hence, whenever we use a getter that has an opaque type as its specified return value (e.g: \`**View**\`), we should only return 1 single concrete class as the return type. This is because once we migrate to SwiftUI these methods will return \`**some View**\` instead of \`**View**\`, and if we don't respect this rule the compiler will tell you to do this.
 
