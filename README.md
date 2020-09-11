@@ -32,10 +32,6 @@ This page tries to explain the coding guidelines we follow not only in terms of 
     * [8.3 Structs' Custom Inits](#83-structs-custom-inits) 
 - [9. Control Transfer Statements](#9-control-transfer-statements) 
     * [9.1 `Guard` vs `If`](#91-guard-vs-if) 
-- [10. Others](#10-others) 
-    * [10.1 Branching Strategy](#101-branching-strategy) 
-    * [10.2 Branch Merging](#102-branch-merging) 
-
 
 ## 1. Base Coding Style
 
@@ -213,7 +209,6 @@ The 1st priority states the following grouping and order.
 2.  "Custom init"-related Struct Extensions
 3.  Main Type (i.e View)
 4.  Extensions
-5.  Preview Provider (not used now)
 
 ### 5.2 Main Type Structure
 
@@ -765,26 +760,3 @@ Also, if you find that because of `guard` your conditions seem a bit difficult t
   }
   ```
 </details>
-
-## 10. Others
-
-### 10.1 Branching Strategy
-
-We define the following branches:
-
-*   **master**: Merge from release for distribution and tag.
-*   **develop**: The official development branch. Merge feature and bugfix branches here **after code review**.
-*   **feature**: New user story development should go in a new branch. Merge this to develop.
-*   **bugfix**: Each bugfix should go in its own branch. Merge this to develop.
-
-In regards to \`**feature\`** and **\`bugfix\`** branches, we follow the following rules:
-
-*   Branch name should contain related JIRA ticket
-*   Commits in the branch should also contain the jira ticket in the message
-*   Should normally be deleted after they are merged. Use your own criteria to keep them after a merge.
-*   Example: bugfix/TRVDD-123, feature/TRVDD-123
-
-### 10.2 Branch Merging
-
-*   If you receive comments, wait until all people that marked the PR as **Needs work** approve it again before merging
-*   If you negotiate to fix some of the comments later, create a jira ticket before merging
