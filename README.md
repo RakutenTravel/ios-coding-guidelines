@@ -111,7 +111,7 @@ _e.g. of wrong setup_: `Button(){}.padding().cornerRadius()` -> Will create un-c
     `ForEach` represents a loop. Don't add dimension properties like frame and padding to this view!
 </details>
 
-## 4.2 Modifiers
+### 4.2 Modifiers
 
 <details>
   <summary>.animation()</summary>
