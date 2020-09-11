@@ -62,7 +62,7 @@ For the case above, the better name would be \`**providerImageURLString**\`
 
 ### 4.1 Views
 
-#### Maximum Nesting Levels
+#### 4.1.1 Maximum Nesting Levels
 
 Maximum **3 levels** of nesting, without counting **Stacks** (VStack, HStack, ZStack), **Lists** (List, ForEach) or **ScrollViews**.
 
@@ -90,52 +90,48 @@ We also strongly suggest refactoring the following components into separate comp
 *   Footers
 *   Any other view that requires a closure to define its own subcomponents (e.g. PageViewController)
 
-#### Button
-
-##### Custom Buttons
+### 4.1.2 Button
 
 If you want to add custom views to a button, remember to put **everything** inside, so that all the content is clickable.
 
 _e.g. of wrong setup_: `Button(){}.padding().cornerRadius()` -> Will create un-clickable content.
 
-#### Properties
-
-##### accent
+#### 4.1.2.1 accent
 
 If you want to change the accent of a button, always apply the accent in the button itself, instead of inside its content.
 
-##### foregroundColor
+#### 4.1.2.2 foregroundColor
 
 You can specify foreground color either at Button level or content level, depending if you want to target specific content only.
 
-#### ForEach
+### 4.1.3 ForEach
 
 ForEach represents a loop. Don't add dimension properties like frame and padding to this view!
 
-### 4.2 Modifiers
+## 4.2 Modifiers
 
-#### .animation()
+### 4.2.1 .animation()
 
 *   (RakuSwiftUI limitation) Make sure any properties you wish to animate are set **after** any padding() setting.
 *   Use .animation() selectively as it affects everything that's defined before it. For transitions, apply the animation directly to the transition, or in general, use withAnimation()
 
-#### .environmentObject()
+#### 4.2.2 .environmentObject()
 
 Don't set the same environment object type twice. Make sure that only one environment object of the same type is needed at a time. Redeclaring environment objects in sub-flows can make the data flow confusing and prone to errors.
 
 Better solution: Use _Binding_ or _ObservedObject_.
 
-#### .frame() and .padding()
+#### 4.2.3 .frame() and .padding()
 
 These functions create **new views.** Any modifiers applied after this are applied to the new view, and not the original one.  
 
 e.g. Image().frame().scaledToFill() -> This will not scale to fill the image, but the frame, causing undesired results!  
     
-#### .onAppear()
+#### 4.2.4 .onAppear()
 
 Only use onAppear on the top-most view of a body or cell, or on the top-most view after an _if_ / _if-else_ / _ForEach_ statement.
 
-#### .padding()
+#### 4.2.5 .padding()
 
 If you want to add 2 types of padding:
 
@@ -148,7 +144,7 @@ In contrast to the actual SwiftUI, RakuSwiftUI does not support [opaque types](h
 Hence, whenever we use a getter that has an opaque type as its specified return value (e.g: \`**View**\`), we should only return 1 single concrete class as the return type. This is because once we migrate to SwiftUI these methods will return \`**some View**\` instead of \`**View**\`, and if we don't respect this rule the compiler will tell you to do this.
 
 <details>
-  <summary>BAD</summary>
+  <summary>:x: BAD</summary>
   
   ```swift
   // This is returning 2 concrete classes, `EmptyView` and `VStack`. Will fail in SwiftUI.
@@ -163,7 +159,7 @@ Hence, whenever we use a getter that has an opaque type as its specified return 
 </details>
 
 <details>
-  <summary>GOOD</summary>
+  <summary>:white_check_mark: GOOD</summary>
   
   ```swift
   // Returning VStack in both cases. Won't fail in SwiftUI and the result is the same.
@@ -248,12 +244,12 @@ The 4th priority states the structure in terms of just the mutability and access
       // MARK: Init Properties
 
       var title: String    
-      var media: \[Media\]
+      var media: [Media]
       @Binding var isSheetPresented: Bool
 
 
-      static var \`default\`: MyView {
-      MyView(title: "", media: \[\], isSheetPresented: false)
+      static var `default`: MyView {
+      MyView(title: "", media: [], isSheetPresented: false)
     }
 
       // MARK: State-related properties
@@ -308,7 +304,7 @@ For more details on **where** in your line you should break it, please follow [G
 Especially, try wrapping when you have initializers or functions with a big amount of parameters.
 
 <details>
-  <summary>BAD</summary>
+  <summary>:x: BAD</summary>
   
   ```swift
   BookingStep1View(bookingSelection: BookingSelection(providerId: self.provider.id,
@@ -326,7 +322,7 @@ Especially, try wrapping when you have initializers or functions with a big amou
 </details>
 
 <details>
-  <summary>GOOD</summary>
+  <summary>:white_check_mark: GOOD</summary>
   
   ```swift
   BookingStep1View(
@@ -374,7 +370,7 @@ The simplest pattern. No need to break lines if everything fits into one single 
 Whenever you are breaking your parameters into different lines **and no trailing closure is declared**, the closing parentheses MUST be in the same line as the end of the last parameter.
 
 <details>
-  <summary>GOOD</summary>
+  <summary>:white_check_mark: GOOD</summary>
   
   ```swift
   // 1.
@@ -452,7 +448,7 @@ If the first line of the chain fits in only one line, the following function cal
       .modifiedAgain(by: somethingElse)
 
   // 3.
-  \[1, 2, 3\]
+  [1, 2, 3]
       .map { $0 + 1 }
       .filter { $0 < 2 }
   ```
@@ -656,13 +652,13 @@ Another good point of `guard` is that it allows you to avoid unnecessary nesting
           return VStack { }        
       } else {
           return VStack {
-              ... lots of code ... // Due to the \`if\` above, now the rest of the code is indented unnecesarily.
+              ... lots of code ... // Due to the `if` above, now the rest of the code is indented unnecesarily.
           }
       }
   }
 
   func myFunc() -> View {
-      // No point in continuing with the algorithm if there are no items in my list. Hence, \`guard\` is better here.
+      // No point in continuing with the algorithm if there are no items in my list. Hence, `guard` is better here.
       guard !myList.isEmpty else { return VStack { } } // PROTIP: You can also use one-lined guards if they are simple ;)
 
       return VStack {
@@ -679,7 +675,7 @@ Also, if you find that because of `guard` your conditions seem a bit difficult t
 (Maybe your condition was difficult to read to begin with and you just realize it because of the guard...?)
 
 <details>
-  <summary>BAD</summary>
+  <summary>:x: BAD</summary>
   
   ```swift
   // 1. Complex guard conditions.
@@ -710,7 +706,7 @@ Also, if you find that because of `guard` your conditions seem a bit difficult t
 </details>
 
 <details>
-  <summary>GOOD</summary>
+  <summary>:white_check_mark: GOOD</summary>
   
   ```swift
   // 1. Complex guard conditions.
